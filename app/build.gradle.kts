@@ -14,6 +14,9 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        // "Buy me a coffee" links; leave blank in gradle.properties to hide them.
+        buildConfigField("String", "SUPPORT_PAYPAL", "\"${project.findProperty("supportPaypal") ?: ""}\"")
+        buildConfigField("String", "SUPPORT_VENMO", "\"${project.findProperty("supportVenmo") ?: ""}\"")
     }
 
     buildTypes {
@@ -31,6 +34,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 

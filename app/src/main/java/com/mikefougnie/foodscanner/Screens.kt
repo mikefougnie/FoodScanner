@@ -195,6 +195,9 @@ fun HistoryScreen(history: List<HistoryEntry>, onOpen: (HistoryEntry) -> Unit, o
 fun SettingsScreen(s: Settings, onChange: (Settings) -> Unit) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)) {
         Text("Settings", style = MaterialTheme.typography.headlineMedium)
+        var coffee by remember { mutableStateOf(false) }
+        CoffeeButton(onClick = { coffee = true }, modifier = Modifier.padding(top = 12.dp))
+        if (coffee) CoffeeDialog(COFFEE_MESSAGE, fromMenu = true, onDismiss = { coffee = false })
 
         Group("Scripture")
         Toggle("Flag blood", "Lev 17:10–14; Acts 15:29", s.blood) { onChange(s.copy(blood = it)) }
@@ -225,6 +228,9 @@ fun SettingsScreen(s: Settings, onChange: (Settings) -> Unit) {
         }
         Text("This reads only what is printed. It can't see what a maker leaves off the label. When an item says \"check,\" the maker can tell you its source.",
             style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(vertical = 16.dp))
+        if (Support.enabled) Text("Clean Food Scanner is free with no ads. Coffee keeps it that way. Thank you!",
+            style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(bottom = 16.dp))
     }
 }
 

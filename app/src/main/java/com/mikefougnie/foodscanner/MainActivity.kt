@@ -1,5 +1,7 @@
 package com.mikefougnie.foodscanner
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -35,6 +37,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -119,6 +123,13 @@ fun App(store: Store) {
     }
 
     BackHandler(enabled = current != null) { current = null }
+
+    val ctx = LocalContext.current
+    CoffeePrompt(COFFEE_MESSAGE) {
+        // Not on top of the camera permission prompt, a result, or a scan in progress.
+        ContextCompat.checkSelfPermission(ctx, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+            current == null && busy == null
+    }
 
     Scaffold(
         snackbarHost = { SnackbarHost(snack) },
